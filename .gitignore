@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Git
+.git
+.gitattributes
+
+# Node modules (if you add npm later)
+node_modules/
+
+# Plan and reference files
+plan.md
+reference.jpg
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
