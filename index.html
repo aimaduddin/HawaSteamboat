@@ -1271,25 +1271,6 @@
                 </ul>
             </div>
 
-            <!-- Newsletter -->
-            <div class="space-y-6">
-                <h4 class="font-display font-bold text-xl">Langgan Kami</h4>
-                <p class="text-accent text-sm">Dapatkan info promosi terkini.</p>
-                
-                <div x-show="!subscribed" x-transition>
-                    <div class="flex items-center">
-                        <input type="email" x-model="email" placeholder="E-mel anda" aria-label="Alamat E-mel" class="bg-light border-2 border-transparent focus:border-primary px-6 py-4 rounded-l-3xl outline-none w-full transition-all">
-                        <button @click="if(email) { subscribed = true; email = ''; }" class="bg-primary text-white p-4 rounded-r-3xl hover:bg-secondary transition-colors focus:ring-2 focus:ring-primary/40 focus:outline-none" aria-label="Langgan Newsletter">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div x-show="subscribed" x-cloak x-transition class="bg-green-100 text-green-700 p-4 rounded-2xl text-center font-bold flex items-center justify-center space-x-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span>Terima kasih!</span>
-                </div>
-            </div>
         </div>
 
         <div class="max-w-7xl mx-auto mt-20 pt-8 border-t border-gray-100 text-center text-accent text-sm">
