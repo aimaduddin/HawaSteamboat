@@ -283,7 +283,7 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="hero" class="relative py-12 md:py-24 px-4 md:px-12 overflow-hidden">
+    <section id="hero" class="relative py-12 md:py-24 px-4 md:px-12 overflow-hidden" x-data="{ scroll: 0 }" @scroll.window="scroll = window.pageYOffset">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
             <!-- Left Content -->
             <div class="w-full md:w-1/2 space-y-8 z-10" data-aos="fade-right" data-aos-duration="1200">
@@ -291,11 +291,60 @@
                 <h1 class="font-display font-extrabold text-5xl md:text-7xl leading-tight">
                     Kami Hidangkan Makanan <span class="text-primary">Lazzat</span>
                 </h1>
+                
+                
+                <div class="flex items-center gap-4">
+                    <div class="flex -space-x-3">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&q=80&fm=webp" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="Customer" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&q=80&fm=webp" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="Customer" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80&fm=webp" class="w-10 h-10 rounded-full border-2 border-white object-cover" alt="Customer" loading="lazy">
+                        <div class="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600">+500</div>
+                    </div>
+                    <div>
+                        <div class="flex text-yellow-400 text-sm">★★★★★</div>
+                        <p class="text-sm font-semibold text-secondary">4.9/5 Rating Pelanggan</p>
+                    </div>
+                </div>
+
                 <p class="text-accent text-lg max-w-lg leading-relaxed">
                     Daging segar, dihiris nipis & dimarinasi dengan sempurna. Pilihan lauk-pauk banyak, sesuai untuk seisi keluarga dan rakan-rakan.
                 </p>
+
+                
+                <div class="bg-red-50 border border-red-100 p-4 rounded-xl inline-block shadow-sm"
+                     x-data="{
+                        endTime: new Date().getTime() + 172800000,
+                        days: 0, hours: 0, minutes: 0, seconds: 0,
+                        updateTimer() {
+                            const now = new Date().getTime();
+                            const diff = this.endTime - now;
+                            this.hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            this.minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            this.seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                        }
+                     }"
+                     x-init="setInterval(() => updateTimer(), 1000); updateTimer()">
+                    <p class="text-red-500 text-xs font-bold uppercase mb-2 flex items-center"><span class="mr-2">🔥</span> Tawaran Terhad</p>
+                    <div class="flex gap-4 text-center">
+                        <div>
+                            <span class="block text-2xl font-bold text-secondary font-display" x-text="hours.toString().padStart(2, '0')"></span>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">Jam</span>
+                        </div>
+                        <div class="text-xl font-bold text-secondary/30 pt-1">:</div>
+                        <div>
+                            <span class="block text-2xl font-bold text-secondary font-display" x-text="minutes.toString().padStart(2, '0')"></span>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">Minit</span>
+                        </div>
+                        <div class="text-xl font-bold text-secondary/30 pt-1">:</div>
+                        <div>
+                            <span class="block text-2xl font-bold text-secondary font-display" x-text="seconds.toString().padStart(2, '0')"></span>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">Saat</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="flex items-center space-x-4">
-                    <a href="#booking" class="bg-primary hover:bg-orange-500 text-white font-bold px-10 py-4 rounded-full transition-all duration-300 shadow-lg shadow-orange-200 hover:-translate-y-1">
+                    <a href="#booking" class="bg-primary hover:bg-orange-600 text-white font-bold text-xl px-12 py-5 rounded-full transition-all duration-300 shadow-xl shadow-orange-500/30 hover:-translate-y-1 hover:shadow-orange-500/50">
                         Tempah Sekarang
                     </a>
                 </div>
@@ -304,23 +353,25 @@
             <!-- Right Imagery -->
             <div class="w-full md:w-1/2 relative mt-20 md:mt-0 flex justify-center overflow-hidden" data-aos="zoom-in" data-aos-duration="1500">
                 <!-- Blob Background -->
-                <div class="absolute inset-0 bg-primary/10 blob-shape transform -rotate-12 scale-110 z-0"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[800px] bg-primary blob-shape opacity-100 z-0 scale-90 hidden md:block"></div>
+                <div class="absolute inset-0 bg-primary/10 blob-shape transform -rotate-12 scale-110 z-0" 
+                     :style="`transform: translateY(${scroll * 0.05}px) rotate(-12deg) scale(1.1)`"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[800px] bg-primary blob-shape opacity-100 z-0 scale-90 hidden md:block"
+                     :style="`transform: translate(-50%, -50%) translateY(${scroll * 0.1}px) scale(0.9)`"></div>
                 
                 <!-- Main Dish -->
                 <div class="relative z-10 w-full max-w-md">
-                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80" alt="Steamboat Dish" class="w-full aspect-square object-cover rounded-full border-8 border-white shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80&fm=webp" alt="Steamboat Dish" loading="lazy" class="w-full aspect-square object-cover rounded-full border-8 border-white shadow-2xl">
                 </div>
 
                 <!-- Satellite Dishes -->
-                <div class="absolute -top-10 -right-10 w-32 h-32 z-20 float-animation">
-                    <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&q=80" alt="Food Side" class="w-full h-full object-cover rounded-full border-4 border-white shadow-xl">
+                <div class="absolute -top-10 -right-10 w-32 h-32 z-20" :style="`transform: translateY(${scroll * -0.1}px)`">
+                    <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&q=80&fm=webp" alt="Food Side" loading="lazy" class="w-full h-full object-cover rounded-full border-4 border-white shadow-xl float-animation">
                 </div>
-                <div class="absolute bottom-0 -left-10 w-40 h-40 z-20 float-animation" style="animation-delay: -2s;">
-                    <img src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=400&q=80" alt="Food Side" class="w-full h-full object-cover rounded-full border-4 border-white shadow-xl">
+                <div class="absolute bottom-0 -left-10 w-40 h-40 z-20" :style="`transform: translateY(${scroll * -0.15}px)`">
+                    <img src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=400&q=80&fm=webp" alt="Food Side" loading="lazy" class="w-full h-full object-cover rounded-full border-4 border-white shadow-xl float-animation" style="animation-delay: -2s;">
                 </div>
-                <div class="absolute -bottom-10 right-20 w-24 h-24 z-20 float-animation" style="animation-delay: -4s;">
-                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&q=80" alt="Food Side" class="w-full h-full object-cover rounded-full border-4 border-white shadow-xl">
+                <div class="absolute -bottom-10 right-20 w-24 h-24 z-20" :style="`transform: translateY(${scroll * -0.08}px)`">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&q=80&fm=webp" alt="Food Side" loading="lazy" class="w-full h-full object-cover rounded-full border-4 border-white shadow-xl float-animation" style="animation-delay: -4s;">
                 </div>
             </div>
         </div>
