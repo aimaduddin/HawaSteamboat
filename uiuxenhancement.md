@@ -13,7 +13,7 @@ Status: `[ ]` Not started, `[ ]` In progress, `[x]` Completed
 - [x] Add mobile hamburger menu for responsive navigation
 - [x] Implement sticky/fixed navigation header on scroll
 - [x] Add active state indicator for current section in nav
-- [ ] Add smooth scroll-to-section when clicking nav links
+- [x] Add smooth scroll-to-section when clicking nav links
 - [x] Ensure sufficient touch targets (min 44px) for mobile
 
 ### 2. Hero Section Enhancement
@@ -37,9 +37,9 @@ Status: `[ ]` Not started, `[ ]` In progress, `[x]` Completed
 - [ ] Implement search functionality for menu items
 - [ ] Add "View Favorites" toggle for quick access to popular items
 - [ ] Add price range indicators (e.g., "RM15-RM50") instead of fixed prices
-- [ ] Implement masonry layout for better vertical scrolling experience
+- [x] Implement masonry layout for better vertical scrolling experience
 - [ ] Add dietary badges (e.g., "Halal Certified", "Spicy", "No Pork")
-- [ ] Lazy load menu images below viewport
+- [x] Lazy load menu images below viewport
 
 ### 5. Interactive Elements & Feedback
 - [ ] Add loading states for all images and content
@@ -57,17 +57,17 @@ Status: `[ ]` Not started, `[ ]` In progress, `[x]` Completed
 - [ ] Implement multi-step booking wizard (Step 1: Info → Step 2: Date/Time → Step 3: Confirmation)
 - [ ] Add guest count calculator with automatic pricing estimate
 - [ ] Add "Popular Times" quick-select buttons (6 PM, 7 PM, 8 PM - peak hours)
-- [ ] Implement date picker with disabled past dates and highlighted available dates
-- [ ] Add success animation/modal after WhatsApp submission
+- [x] Implement date picker with disabled past dates and highlighted available dates
+- [x] Add success animation/modal after WhatsApp submission
 - [ ] Store booking data in localStorage for form autofill on return visits
 
 ### 7. Testimonials Section Improvement
-- [ ] Implement horizontal scroll carousel for mobile (swipe to see more)
-- [ ] Add hover-to-reveal full testimonial cards
-- [ ] Include customer photos with names
-- [ ] Add rating stars visual
+- [x] Implement horizontal scroll carousel for mobile (swipe to see more)
+- [x] Add hover-to-reveal full testimonial cards
+- [x] Include customer photos with names
+- [x] Add rating stars visual
 - [ ] Add "View All Reviews" button linking to external reviews (Google/Facebook)
-- [ ] Add submission form for new testimonials
+- [x] Add submission form for new testimonials
 
 ### 8. Footer Enhancements
 - [ ] Add quick navigation links (FAQ, Contact, Terms, Privacy)
@@ -93,11 +93,11 @@ Status: `[ ]` Not started, `[ ]` In progress, `[x]` Completed
 - [ ] Add preconnect for Google Fonts and CDN resources
 
 ### 11. Mobile Responsiveness Refinement
-- [ ] Improve hamburger menu animation (slide from right vs fade)
+- [x] Improve hamburger menu animation (slide from right vs fade)
 - [ ] Ensure pricing cards stack vertically on mobile with proper spacing
-- [ ] Fix menu section grid on small screens (1 column with proper card width)
+- [x] Fix menu section grid on small screens (1 column with proper card width)
 - [ ] Test and adjust touch-friendly interactions (no hover, use tap/click)
-- [ ] Ensure form inputs are at least 48px tall for touch targets
+- [x] Ensure form inputs are at least 48px tall for touch targets
 
 ---
 
