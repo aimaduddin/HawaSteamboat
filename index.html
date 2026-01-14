@@ -73,6 +73,11 @@
     </style>
 </head>
 <body class="font-body bg-white text-secondary antialiased" x-data="{
+    // Navigation state
+    mobileMenuOpen: false,
+    isScrolled: false,
+    activeSection: 'hero',
+
     // Form state
     name: '',
     date: '',
@@ -100,11 +105,33 @@
         return `https://wa.me/60XXXXXXXXX?text=${msg}`;
     },
 
+    init() {
+        // Scroll detection
+        this.isScrolled = window.scrollY > 20;
+        window.addEventListener('scroll', () => {
+            this.isScrolled = window.scrollY > 20;
+        });
+
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.activeSection = entry.target.id;
+                }
+            });
+        }, { rootMargin: '-40% 0px -40% 0px' });
+
+        ['hero', 'about', 'menu', 'testimonials', 'booking'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+    },
+
     submitBooking() {
         this.touched = { name: true, date: true, time: true, pax: true };
         if (this.isValid) window.open(this.whatsappLink, '_blank');
     }
-}">
+}" @keydown.escape.window="mobileMenuOpen = false">
 
     <!-- Navigation -->
     <header 
@@ -112,31 +139,6 @@
         :class="isScrolled ? 'py-4 bg-white/95 backdrop-blur-md shadow-sm' : 'py-6 bg-transparent'"
         data-aos="fade-down" 
         data-aos-duration="1000"
-        x-data="{ 
-            mobileMenuOpen: false, 
-            isScrolled: false,
-            activeSection: 'hero',
-            init() {
-                this.isScrolled = window.scrollY > 20;
-                window.addEventListener('scroll', () => {
-                    this.isScrolled = window.scrollY > 20;
-                });
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            this.activeSection = entry.target.id;
-                        }
-                    });
-                }, { rootMargin: '-40% 0px -40% 0px' });
-
-                ['hero', 'about', 'menu', 'testimonials', 'booking'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) observer.observe(el);
-                });
-            }
-        }"
-        @keydown.escape.window="mobileMenuOpen = false"
     >
         <div class="flex items-center space-x-2 relative z-50">
             <span class="text-3xl">🍲</span>
@@ -184,99 +186,101 @@
             </div>
         </button>
 
-        <div 
-            id="mobile-menu"
-            x-show="mobileMenuOpen" 
-            x-cloak 
-            class="fixed inset-0 z-[60] lg:hidden"
-            role="dialog" 
-            aria-modal="true"
-        >
-            <div 
-                x-show="mobileMenuOpen"
-                x-transition:enter="transition-opacity ease-linear duration-300"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                x-transition:leave="transition-opacity ease-linear duration-300"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                class="fixed inset-0 bg-secondary/90 backdrop-blur-md"
-                @click="mobileMenuOpen = false"
-            ></div>
 
-            <nav 
-                x-show="mobileMenuOpen"
-                x-trap.noscroll="mobileMenuOpen"
-                x-transition:enter="transition ease-out duration-300 transform"
-                x-transition:enter-start="translate-x-full"
-                x-transition:enter-end="translate-x-0"
-                x-transition:leave="transition ease-in duration-200 transform"
-                x-transition:leave-start="translate-x-0"
-                x-transition:leave-end="translate-x-full"
-                class="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-white shadow-2xl flex flex-col h-full overflow-y-auto border-l border-gray-100"
-            >
-                <div class="p-8 flex flex-col h-full">
-                    <div class="flex items-center justify-between mb-12">
-                        <span class="font-display font-extrabold text-2xl tracking-tight text-secondary">Menu</span>
-                        <button @click="mobileMenuOpen = false" class="p-2 text-accent hover:text-primary hover:bg-primary/5 transition-all rounded-full focus:outline-none focus:ring-2 focus:ring-primary">
-                            <span class="sr-only">Close menu</span>
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </button>
-                    </div>
-                    
-                    <div class="flex flex-col space-y-4">
-                        <a href="#hero" 
-                           @click="mobileMenuOpen = false; activeSection = 'hero'" 
-                           class="group flex items-center space-x-5 p-4 rounded-2xl transition-all duration-300"
-                           :class="activeSection === 'hero' ? 'bg-primary/10 text-primary translate-x-2' : 'hover:bg-gray-50 text-secondary hover:translate-x-2'">
-                            <span class="w-10 h-10 flex items-center justify-center rounded-full transition-colors"
-                                  :class="activeSection === 'hero' ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 text-gray-400 group-hover:bg-white group-hover:text-primary group-hover:shadow-md'">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                            </span>
-                            <span class="text-xl font-bold tracking-tight">Utama</span>
-                        </a>
-                        <a href="#about" 
-                           @click="mobileMenuOpen = false; activeSection = 'about'" 
-                           class="group flex items-center space-x-5 p-4 rounded-2xl transition-all duration-300"
-                           :class="activeSection === 'about' ? 'bg-primary/10 text-primary translate-x-2' : 'hover:bg-gray-50 text-secondary hover:translate-x-2'">
-                            <span class="w-10 h-10 flex items-center justify-center rounded-full transition-colors"
-                                  :class="activeSection === 'about' ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 text-gray-400 group-hover:bg-white group-hover:text-primary group-hover:shadow-md'">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </span>
-                            <span class="text-xl font-bold tracking-tight">Tentang Kami</span>
-                        </a>
-                        <a href="#menu" 
-                           @click="mobileMenuOpen = false; activeSection = 'menu'" 
-                           class="group flex items-center space-x-5 p-4 rounded-2xl transition-all duration-300"
-                           :class="activeSection === 'menu' ? 'bg-primary/10 text-primary translate-x-2' : 'hover:bg-gray-50 text-secondary hover:translate-x-2'">
-                            <span class="w-10 h-10 flex items-center justify-center rounded-full transition-colors"
-                                  :class="activeSection === 'menu' ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 text-gray-400 group-hover:bg-white group-hover:text-primary group-hover:shadow-md'">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                            </span>
-                            <span class="text-xl font-bold tracking-tight">Menu</span>
-                        </a>
-                        <a href="#testimonials" 
-                           @click="mobileMenuOpen = false; activeSection = 'testimonials'" 
-                           class="group flex items-center space-x-5 p-4 rounded-2xl transition-all duration-300"
-                           :class="activeSection === 'testimonials' ? 'bg-primary/10 text-primary translate-x-2' : 'hover:bg-gray-50 text-secondary hover:translate-x-2'">
-                            <span class="w-10 h-10 flex items-center justify-center rounded-full transition-colors"
-                                  :class="activeSection === 'testimonials' ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 text-gray-400 group-hover:bg-white group-hover:text-primary group-hover:shadow-md'">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
-                            </span>
-                            <span class="text-xl font-bold tracking-tight">Testimoni</span>
-                        </a>
-                        <a href="#booking" @click="mobileMenuOpen = false; activeSection = 'booking'" class="mt-8 bg-primary text-white font-bold py-5 px-8 rounded-2xl shadow-lg shadow-orange-200 hover:bg-orange-500 hover:scale-[1.02] transition-all text-center text-lg">
-                            Hubungi Kami
-                        </a>
-                    </div>
-
-                    <div class="mt-auto pt-8">
-                        <p class="text-accent/60 text-xs text-center font-medium">© 2024 Hawa Steamboat House</p>
-                    </div>
-                </div>
-            </nav>
-        </div>
     </header>
+
+    <div 
+        id="mobile-menu"
+        x-show="mobileMenuOpen" 
+        x-cloak 
+        class="fixed inset-0 z-[60] lg:hidden"
+        role="dialog" 
+        aria-modal="true"
+    >
+        <div 
+            x-show="mobileMenuOpen"
+            x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 bg-secondary/90 backdrop-blur-md"
+            @click="mobileMenuOpen = false"
+        ></div>
+
+        <nav 
+            x-show="mobileMenuOpen"
+            x-trap.noscroll="mobileMenuOpen"
+            x-transition:enter="transition ease-out duration-300 transform"
+            x-transition:enter-start="translate-x-full"
+            x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition ease-in duration-200 transform"
+            x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="translate-x-full"
+            class="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-white shadow-2xl flex flex-col h-full overflow-y-auto border-l border-gray-100"
+        >
+            <div class="p-8 flex flex-col h-full">
+                <div class="flex items-center justify-between mb-12">
+                    <span class="font-display font-extrabold text-2xl tracking-tight text-secondary">Menu</span>
+                    <button @click="mobileMenuOpen = false" class="p-2 text-accent hover:text-primary hover:bg-primary/5 transition-all rounded-full focus:outline-none focus:ring-2 focus:ring-primary">
+                        <span class="sr-only">Close menu</span>
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                
+                <div class="flex flex-col space-y-4">
+                    <a href="#hero" 
+                       @click="mobileMenuOpen = false; activeSection = 'hero'" 
+                       class="group flex items-center space-x-5 p-4 rounded-2xl transition-all duration-300"
+                       :class="activeSection === 'hero' ? 'bg-primary/10 text-primary translate-x-2' : 'hover:bg-gray-50 text-secondary hover:translate-x-2'">
+                        <span class="w-10 h-10 flex items-center justify-center rounded-full transition-colors"
+                              :class="activeSection === 'hero' ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 text-gray-400 group-hover:bg-white group-hover:text-primary group-hover:shadow-md'">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        </span>
+                        <span class="text-xl font-bold tracking-tight">Utama</span>
+                    </a>
+                    <a href="#about" 
+                       @click="mobileMenuOpen = false; activeSection = 'about'" 
+                       class="group flex items-center space-x-5 p-4 rounded-2xl transition-all duration-300"
+                       :class="activeSection === 'about' ? 'bg-primary/10 text-primary translate-x-2' : 'hover:bg-gray-50 text-secondary hover:translate-x-2'">
+                        <span class="w-10 h-10 flex items-center justify-center rounded-full transition-colors"
+                              :class="activeSection === 'about' ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 text-gray-400 group-hover:bg-white group-hover:text-primary group-hover:shadow-md'">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </span>
+                        <span class="text-xl font-bold tracking-tight">Tentang Kami</span>
+                    </a>
+                    <a href="#menu" 
+                       @click="mobileMenuOpen = false; activeSection = 'menu'" 
+                       class="group flex items-center space-x-5 p-4 rounded-2xl transition-all duration-300"
+                       :class="activeSection === 'menu' ? 'bg-primary/10 text-primary translate-x-2' : 'hover:bg-gray-50 text-secondary hover:translate-x-2'">
+                        <span class="w-10 h-10 flex items-center justify-center rounded-full transition-colors"
+                              :class="activeSection === 'menu' ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 text-gray-400 group-hover:bg-white group-hover:text-primary group-hover:shadow-md'">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        </span>
+                        <span class="text-xl font-bold tracking-tight">Menu</span>
+                    </a>
+                    <a href="#testimonials" 
+                       @click="mobileMenuOpen = false; activeSection = 'testimonials'" 
+                       class="group flex items-center space-x-5 p-4 rounded-2xl transition-all duration-300"
+                       :class="activeSection === 'testimonials' ? 'bg-primary/10 text-primary translate-x-2' : 'hover:bg-gray-50 text-secondary hover:translate-x-2'">
+                        <span class="w-10 h-10 flex items-center justify-center rounded-full transition-colors"
+                              :class="activeSection === 'testimonials' ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-gray-100 text-gray-400 group-hover:bg-white group-hover:text-primary group-hover:shadow-md'">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
+                        </span>
+                        <span class="text-xl font-bold tracking-tight">Testimoni</span>
+                    </a>
+                    <a href="#booking" @click="mobileMenuOpen = false; activeSection = 'booking'" class="mt-8 bg-primary text-white font-bold py-5 px-8 rounded-2xl shadow-lg shadow-orange-200 hover:bg-orange-500 hover:scale-[1.02] transition-all text-center text-lg">
+                        Hubungi Kami
+                    </a>
+                </div>
+
+                <div class="mt-auto pt-8">
+                    <p class="text-accent/60 text-xs text-center font-medium">© 2024 Hawa Steamboat House</p>
+                </div>
+            </div>
+        </nav>
+    </div>
 
     <!-- Hero Section -->
     <section id="hero" class="relative py-12 md:py-24 px-4 md:px-12 overflow-hidden">
