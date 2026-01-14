@@ -77,6 +77,7 @@
     mobileMenuOpen: false,
     isScrolled: false,
     activeSection: 'hero',
+    showSuccessModal: false,
 
     // Form state
     name: '',
@@ -87,6 +88,7 @@
     touched: { name: false, date: false, time: false, pax: false },
     timeOptions: ['5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM'],
 
+    get todayDate() { return new Date().toISOString().split('T')[0]; },
     get nameError() { return this.touched.name && !this.name.trim() ? 'Nama diperlukan' : ''; },
     get dateError() { 
         if (!this.touched.date) return '';
@@ -129,7 +131,15 @@
 
     submitBooking() {
         this.touched = { name: true, date: true, time: true, pax: true };
-        if (this.isValid) window.open(this.whatsappLink, '_blank');
+        if (this.isValid) {
+            this.showSuccessModal = true;
+            setTimeout(() => {
+                window.open(this.whatsappLink, '_blank');
+                this.showSuccessModal = false;
+                this.name = ''; this.date = ''; this.time = ''; this.pax = ''; this.notes = '';
+                this.touched = { name: false, date: false, time: false, pax: false };
+            }, 3000);
+        }
     }
 }" @keydown.escape.window="mobileMenuOpen = false">
 
@@ -988,7 +998,11 @@
                     <!-- Date -->
                     <div class="space-y-2 min-w-0">
                         <label class="font-bold text-sm uppercase tracking-widest text-accent">Tarikh</label>
-                        <input type="date" x-model="date" @blur="touched.date = true" class="w-full bg-white border-2 border-transparent focus:border-primary px-6 py-4 rounded-3xl outline-none transition-all" :class="dateError ? 'border-red-500' : ''">
+                        <input type="date" :min="todayDate" x-model="date" @blur="touched.date = true" class="w-full bg-white border-2 border-transparent focus:border-primary px-6 py-4 rounded-3xl outline-none transition-all" :class="{'border-red-500': dateError, 'border-green-500/50 bg-green-50': date && !dateError}">
+                        <div x-show="date && !dateError && new Date(date) <= new Date(new Date().setDate(new Date().getDate() + 3))" x-transition class="text-green-600 text-xs font-bold px-4 pt-2 flex items-center animate-pulse">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Tarikh Pilihan Popular!
+                        </div>
                         <p x-show="dateError" x-text="dateError" class="text-red-500 text-xs px-4" x-cloak></p>
                     </div>
                     <!-- Time -->
@@ -1086,6 +1100,47 @@
             &copy; 2026 Hawa Steamboat House. Hak cipta terpelihara.
         </div>
     </footer>
+
+    <div 
+        x-show="showSuccessModal" 
+        x-cloak
+        class="fixed inset-0 z-[100] flex items-center justify-center px-4"
+        role="dialog"
+        aria-modal="true"
+    >
+        <div 
+            x-show="showSuccessModal"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 bg-secondary/80 backdrop-blur-sm"
+            @click="showSuccessModal = false"
+        ></div>
+
+        <div 
+            x-show="showSuccessModal"
+            x-transition:enter="transition ease-out duration-300 transform"
+            x-transition:enter-start="opacity-0 scale-90 translate-y-4"
+            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-200 transform"
+            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+            x-transition:leave-end="opacity-0 scale-90 translate-y-4"
+            class="bg-white rounded-[40px] p-8 md:p-12 w-full max-w-md text-center relative z-10 shadow-2xl"
+        >
+            <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            
+            <h3 class="font-display font-extrabold text-3xl mb-4 text-secondary">Tempahan Berjaya!</h3>
+            <p class="text-accent mb-8">Terima kasih kerana memilih Hawa Steamboat. Kami akan mengalihkan anda ke WhatsApp untuk pengesahan segera.</p>
+            
+            <div class="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto"></div>
+            <p class="text-xs text-accent/60 mt-4 font-bold tracking-widest uppercase">Mengalihkan...</p>
+        </div>
+    </div>
 
     <script>
         AOS.init({
