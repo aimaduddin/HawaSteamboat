@@ -17,11 +17,11 @@ Status: `[ ]` Not started, `[ ]` In progress, `[x]` Completed
 - [x] Ensure sufficient touch targets (min 44px) for mobile
 
 ### 2. Hero Section Enhancement
-- [ ] Add parallax effect to hero background
-- [ ] Increase CTA button prominence (larger, more contrasting color)
-- [ ] Add social proof element (e.g., "500+ happy customers", "Rated 4.9/5")
-- [ ] Add countdown timer for limited-time offers
-- [ ] Optimize hero image load speed (webp format, lazy load)
+- [x] Add parallax effect to hero background
+- [x] Increase CTA button prominence (larger, more contrasting color)
+- [x] Add social proof element (e.g., "500+ happy customers", "Rated 4.9/5")
+- [x] Add countdown timer for limited-time offers
+- [x] Optimize hero image load speed (webp format, lazy load)
 
 ### 3. TEMPAT & SUASANA Section Optimization
 - [ ] Add section-level filtering/quick-jump (Private Rooms, Main Hall, Outdoor)

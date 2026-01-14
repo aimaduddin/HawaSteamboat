@@ -311,37 +311,8 @@
                 </p>
 
                 
-                <div class="bg-red-50 border border-red-100 p-4 rounded-xl inline-block shadow-sm"
-                     x-data="{
-                        endTime: new Date().getTime() + 172800000,
-                        days: 0, hours: 0, minutes: 0, seconds: 0,
-                        updateTimer() {
-                            const now = new Date().getTime();
-                            const diff = this.endTime - now;
-                            this.hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            this.minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                            this.seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                        }
-                     }"
-                     x-init="setInterval(() => updateTimer(), 1000); updateTimer()">
-                    <p class="text-red-500 text-xs font-bold uppercase mb-2 flex items-center"><span class="mr-2">🔥</span> Tawaran Terhad</p>
-                    <div class="flex gap-4 text-center">
-                        <div>
-                            <span class="block text-2xl font-bold text-secondary font-display" x-text="hours.toString().padStart(2, '0')"></span>
-                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">Jam</span>
-                        </div>
-                        <div class="text-xl font-bold text-secondary/30 pt-1">:</div>
-                        <div>
-                            <span class="block text-2xl font-bold text-secondary font-display" x-text="minutes.toString().padStart(2, '0')"></span>
-                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">Minit</span>
-                        </div>
-                        <div class="text-xl font-bold text-secondary/30 pt-1">:</div>
-                        <div>
-                            <span class="block text-2xl font-bold text-secondary font-display" x-text="seconds.toString().padStart(2, '0')"></span>
-                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">Saat</span>
-                        </div>
-                    </div>
-                </div>
+                
+
 
                 <div class="flex items-center space-x-4">
                     <a href="#booking" class="bg-primary hover:bg-orange-600 text-white font-bold text-xl px-12 py-5 rounded-full transition-all duration-300 shadow-xl shadow-orange-500/30 hover:-translate-y-1 hover:shadow-orange-500/50">
@@ -1049,19 +1020,19 @@
             <form @submit.prevent="submitBooking" class="bg-light p-10 md:p-16 rounded-[60px] shadow-2xl space-y-8" data-aos="zoom-in-up">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Name -->
-                    <div class="space-y-2">
+                    <div class="space-y-2 min-w-0">
                         <label class="font-bold text-sm uppercase tracking-widest text-accent">Nama Penuh</label>
                         <input type="text" x-model="name" @blur="touched.name = true" placeholder="Masukkan nama" class="w-full bg-white border-2 border-transparent focus:border-primary px-6 py-4 rounded-3xl outline-none transition-all" :class="nameError ? 'border-red-500' : ''">
                         <p x-show="nameError" x-text="nameError" class="text-red-500 text-xs px-4" x-cloak></p>
                     </div>
                     <!-- Date -->
-                    <div class="space-y-2">
+                    <div class="space-y-2 min-w-0">
                         <label class="font-bold text-sm uppercase tracking-widest text-accent">Tarikh</label>
                         <input type="date" x-model="date" @blur="touched.date = true" class="w-full bg-white border-2 border-transparent focus:border-primary px-6 py-4 rounded-3xl outline-none transition-all" :class="dateError ? 'border-red-500' : ''">
                         <p x-show="dateError" x-text="dateError" class="text-red-500 text-xs px-4" x-cloak></p>
                     </div>
                     <!-- Time -->
-                    <div class="space-y-2">
+                    <div class="space-y-2 min-w-0">
                         <label class="font-bold text-sm uppercase tracking-widest text-accent">Masa</label>
                         <select x-model="time" @blur="touched.time = true" class="w-full bg-white border-2 border-transparent focus:border-primary px-6 py-4 rounded-3xl outline-none transition-all" :class="timeError ? 'border-red-500' : ''">
                             <option value="">Pilih Masa</option>
@@ -1072,14 +1043,14 @@
                         <p x-show="timeError" x-text="timeError" class="text-red-500 text-xs px-4" x-cloak></p>
                     </div>
                     <!-- Pax -->
-                    <div class="space-y-2">
+                    <div class="space-y-2 min-w-0">
                         <label class="font-bold text-sm uppercase tracking-widest text-accent">Bilangan Orang</label>
                         <input type="number" x-model="pax" @blur="touched.pax = true" placeholder="Contoh: 4" class="w-full bg-white border-2 border-transparent focus:border-primary px-6 py-4 rounded-3xl outline-none transition-all" :class="paxError ? 'border-red-500' : ''">
                         <p x-show="paxError" x-text="paxError" class="text-red-500 text-xs px-4" x-cloak></p>
                     </div>
                 </div>
                 <!-- Notes -->
-                <div class="space-y-2">
+                <div class="space-y-2 min-w-0">
                     <label class="font-bold text-sm uppercase tracking-widest text-accent">Nota Tambahan (Pilihan)</label>
                     <textarea x-model="notes" rows="4" placeholder="Cth: Meja tepi tingkap, perlukan kerusi bayi..." class="w-full bg-white border-2 border-transparent focus:border-primary px-6 py-4 rounded-3xl outline-none transition-all resize-none"></textarea>
                 </div>
