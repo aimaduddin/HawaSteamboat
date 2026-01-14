@@ -78,6 +78,7 @@
     isScrolled: false,
     activeSection: 'hero',
     showSuccessModal: false,
+    isDesktop: window.innerWidth >= 768,
 
     // Form state
     name: '',
@@ -112,6 +113,11 @@
         this.isScrolled = window.scrollY > 20;
         window.addEventListener('scroll', () => {
             this.isScrolled = window.scrollY > 20;
+        });
+        
+        // Resize detection
+        window.addEventListener('resize', () => {
+            this.isDesktop = window.innerWidth >= 768;
         });
 
         // Intersection Observer
@@ -638,264 +644,280 @@
     </section>
 
     <!-- Full Menu Section -->
-    <section id="menu" class="py-24 px-4 md:px-12 bg-light">
+    <section id="menu" class="py-24 px-4 md:px-12 bg-light relative" x-data="{ activeCategory: null }">
         <div class="max-w-7xl mx-auto">
             <div class="text-center space-y-4 mb-16">
-                <h2 class="font-display font-extrabold text-4xl md:text-5xl" data-aos="fade-up">Menu <span class="text-primary">Lengkap</span></h2>
-                <p class="text-accent text-lg max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">Pilih bahan-bahan mentah segar untuk dimasak sendiri di meja anda. Nikmati pengalaman steamboat & BBQ yang unik bersama keluarga dan rakan-rakan.</p>
+                <h2 class="font-display font-extrabold text-4xl md:text-5xl" data-aos="fade-up">Menu <span class="text-primary">Pilihan</span></h2>
+                <p class="text-accent text-lg max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">5 Kategori utama dengan bahan segar premium. Pilih kegemaran anda.</p>
             </div>
 
-            <!-- Daging Section -->
-            <div class="mb-20" data-aos="fade-up">
-                <div class="flex items-center space-x-4 mb-8">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl">Daging</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div class="relative mb-4 overflow-hidden rounded-2xl">
-                            <img src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=400&q=80" alt="Beef Slices" class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-center">
+                
+                <div class="w-full bg-white rounded-[2.5rem] p-4 shadow-xl shadow-gray-100 border border-white hover:border-primary/20 transition-all duration-300 group relative overflow-hidden"
+                     data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex flex-row h-full gap-5 items-start" 
+                         @click="!isDesktop ? (activeCategory = activeCategory === 'daging' ? null : 'daging') : null">
+                        
+                        <div class="w-28 h-28 md:w-32 md:h-32 flex-shrink-0 relative rounded-[1.5rem] overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=400&q=80" alt="Daging" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-60"></div>
+                            <div class="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-secondary text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+                                Premium
+                            </div>
                         </div>
-                        <h4 class="font-display font-bold text-lg mb-2">Hirisan Daging Lembu</h4>
-                        <p class="text-accent text-sm mb-3">Hirisan nipis daging segar, sedia untuk dimasak di meja anda</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
 
-                        <h4 class="font-display font-bold text-lg mb-2">Brisket Daging</h4>
-                        <p class="text-accent text-sm mb-3">Potongan daging lembu segar dengan lemak yang sedap</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Short Ribs</h4>
-                        <p class="text-accent text-sm mb-3">Rusuk lembu segar berlemak, tekstur yang unik</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Lidah Lembu</h4>
-                        <p class="text-accent text-sm mb-3">Lidah lembu segar, tekstur kenyal yang unik</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kambing Section -->
-            <div class="mb-20" data-aos="fade-up" data-aos-delay="100">
-                <div class="flex items-center space-x-4 mb-8">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl">Kambing</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div class="relative mb-4 overflow-hidden rounded-2xl">
-                            <img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=400&q=80" alt="Lamb Chop" class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="flex-1 min-w-0 pt-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-display font-bold text-xl text-secondary">Daging</h3>
+                                <button class="md:hidden w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-primary transition-transform duration-300" 
+                                     :class="activeCategory === 'daging' ? 'rotate-180 bg-primary text-white' : ''">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                            </div>
+                            
+                            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2 opacity-80">Hirisan Lembu</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-2 md:gap-x-4" 
+                                 x-show="isDesktop || activeCategory === 'daging'" 
+                                 x-collapse>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Brisket Daging</p>
+                                        <p class="text-[11px] text-accent leading-tight">Lemak manis & lembut</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Short Ribs</p>
+                                        <p class="text-[11px] text-accent leading-tight">Tekstur unik berlemak</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Lidah Lembu</p>
+                                        <p class="text-[11px] text-accent leading-tight">Kenyal & istimewa</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <h4 class="font-display font-bold text-lg mb-2">Lamb Chop</h4>
-                        <p class="text-accent text-sm mb-3">Hirisan kambing segar, sesuai untuk dimasak di meja anda</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Bahu Kambing</h4>
-                        <p class="text-accent text-sm mb-3">Potongan kambing segar yang lembut & berlemak</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Rusuk Kambing</h4>
-                        <p class="text-accent text-sm mb-3">Rusuk kambing segar dengan lemak yang sedap</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Ayam Section -->
-            <div class="mb-20" data-aos="fade-up" data-aos-delay="200">
-                <div class="flex items-center space-x-4 mb-8">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl">Ayam</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div class="relative mb-4 overflow-hidden rounded-2xl">
-                            <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&q=80" alt="Chicken Slices" class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="w-full bg-white rounded-[2.5rem] p-4 shadow-xl shadow-gray-100 border border-white hover:border-primary/20 transition-all duration-300 group relative overflow-hidden"
+                     data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex flex-row h-full gap-5 items-start" 
+                         @click="!isDesktop ? (activeCategory = activeCategory === 'ayam' ? null : 'ayam') : null">
+                        
+                        <div class="w-28 h-28 md:w-32 md:h-32 flex-shrink-0 relative rounded-[1.5rem] overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&q=80" alt="Ayam" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-60"></div>
+                            <div class="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-secondary text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+                                Segar
+                            </div>
                         </div>
-                        <h4 class="font-display font-bold text-lg mb-2">Hirisan Ayam</h4>
-                        <p class="text-accent text-sm mb-3">Hirisan ayam segar dari dada & peha, sedia untuk dimasak</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
 
-                        <h4 class="font-display font-bold text-lg mb-2">Sayap Ayam</h4>
-                        <p class="text-accent text-sm mb-3">Sayap ayam segar, sesuai untuk BBQ</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Peha Ayam</h4>
-                        <p class="text-accent text-sm mb-3">Peha ayam segar berlemak, tekstur juicy</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Makanan Laut Section -->
-            <div class="mb-20" data-aos="fade-up" data-aos-delay="300">
-                <div class="flex items-center space-x-4 mb-8">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl">Makanan Laut</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div class="relative mb-4 overflow-hidden rounded-2xl">
-                            <img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&q=80" alt="Prawns" class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="flex-1 min-w-0 pt-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-display font-bold text-xl text-secondary">Ayam</h3>
+                                <button class="md:hidden w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-primary transition-transform duration-300" 
+                                     :class="activeCategory === 'ayam' ? 'rotate-180 bg-primary text-white' : ''">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                            </div>
+                            
+                            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2 opacity-80">Hirisan Ayam</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-2 md:gap-x-4" 
+                                 x-show="isDesktop || activeCategory === 'ayam'" 
+                                 x-collapse>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Sayap Ayam</p>
+                                        <p class="text-[11px] text-accent leading-tight">Perap khas BBQ</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Peha Ayam</p>
+                                        <p class="text-[11px] text-accent leading-tight">Juicy & lembut</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Sosej Ayam</p>
+                                        <p class="text-[11px] text-accent leading-tight">Kegemaran kanak-kanak</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <h4 class="font-display font-bold text-lg mb-2">Udang</h4>
-                        <p class="text-accent text-sm mb-3">Udang segar yang dikupas, sedia untuk dimasak</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Sotong</h4>
-                        <p class="text-accent text-sm mb-3">Sotong segar ring, dibelah & dihiris</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Ikan</h4>
-                        <p class="text-accent text-sm mb-3">Hirisan ikan segar yang lembut</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Ketam</h4>
-                        <p class="text-accent text-sm mb-3">Ketam segar, penuh dengan daging manis</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Sayur & Lauk Section -->
-            <div class="mb-20" data-aos="fade-up" data-aos-delay="400">
-                <div class="flex items-center space-x-4 mb-8">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl">Sayur & Lauk</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div class="relative mb-4 overflow-hidden rounded-2xl">
-                            <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" alt="Vegetable Platter" class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="w-full bg-white rounded-[2.5rem] p-4 shadow-xl shadow-gray-100 border border-white hover:border-primary/20 transition-all duration-300 group relative overflow-hidden"
+                     data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex flex-row h-full gap-5 items-start" 
+                         @click="!isDesktop ? (activeCategory = activeCategory === 'laut' ? null : 'laut') : null">
+                        
+                        <div class="w-28 h-28 md:w-32 md:h-32 flex-shrink-0 relative rounded-[1.5rem] overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&q=80" alt="Makanan Laut" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-60"></div>
+                            <div class="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-secondary text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+                                Laut Dalam
+                            </div>
                         </div>
-                        <h4 class="font-display font-bold text-lg mb-2">Platter Sayur</h4>
-                        <p class="text-accent text-sm mb-3">Aneka sayur segar: kobis, sawi, lobak merah & brokoli</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
 
-                        <h4 class="font-display font-bold text-lg mb-2">Cendawan</h4>
-                        <p class="text-accent text-sm mb-3">Cendawan segar: tiram & shiitake</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Tauhu</h4>
-                        <p class="text-accent text-sm mb-3">Tauhu segar: lembut & goreng</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Bola Ikan & Sosej</h4>
-                        <p class="text-accent text-sm mb-3">Aneka bola ikan & sosej ayam yang sedia untuk dimasak</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sup Asas Section -->
-            <div class="mb-20" data-aos="fade-up" data-aos-delay="500">
-                <div class="flex items-center space-x-4 mb-8">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl">Sup Asas</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
-                        <div class="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Popular</div>
-                        <div class="relative mb-4 overflow-hidden rounded-2xl">
-                            <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80" alt="Tomyam Soup" class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="flex-1 min-w-0 pt-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-display font-bold text-xl text-secondary">Makanan Laut</h3>
+                                <button class="md:hidden w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-primary transition-transform duration-300" 
+                                     :class="activeCategory === 'laut' ? 'rotate-180 bg-primary text-white' : ''">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                            </div>
+                            
+                            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2 opacity-80">Udang Segar</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-2 md:gap-x-4" 
+                                 x-show="isDesktop || activeCategory === 'laut'" 
+                                 x-collapse>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Sotong Ring</p>
+                                        <p class="text-[11px] text-accent leading-tight">Kenyal & manis</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Hirisan Ikan</p>
+                                        <p class="text-[11px] text-accent leading-tight">Fillet ikan dory/merah</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Ketam</p>
+                                        <p class="text-[11px] text-accent leading-tight">Penuh isi manis</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <h4 class="font-display font-bold text-lg mb-2">Sup Tomyam</h4>
-                        <p class="text-accent text-sm mb-3">Sup berperisa tomyam yang pedas, masam & penuh aroma</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Sup Jernih</h4>
-                        <p class="text-accent text-sm mb-3">Sup ayam jernih yang lembut & ringan</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Sup Herba</h4>
-                        <p class="text-accent text-sm mb-3">Sup ginseng yang sihat & menenangkan</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Mee & Nasi Section -->
-            <div class="mb-20" data-aos="fade-up" data-aos-delay="600">
-                <div class="flex items-center space-x-4 mb-8">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl">Mee & Nasi</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div class="relative mb-4 overflow-hidden rounded-2xl">
-                            <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&q=80" alt="Noodles" class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="w-full bg-white rounded-[2.5rem] p-4 shadow-xl shadow-gray-100 border border-white hover:border-primary/20 transition-all duration-300 group relative overflow-hidden"
+                     data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex flex-row h-full gap-5 items-start" 
+                         @click="!isDesktop ? (activeCategory = activeCategory === 'sayur' ? null : 'sayur') : null">
+                        
+                        <div class="w-28 h-28 md:w-32 md:h-32 flex-shrink-0 relative rounded-[1.5rem] overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80" alt="Sayur" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-60"></div>
+                            <div class="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-secondary text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+                                Organik
+                            </div>
                         </div>
-                        <h4 class="font-display font-bold text-lg mb-2">Mee</h4>
-                        <p class="text-accent text-sm mb-3">Mee mentah: kuning, mee hoon & bihun untuk dimasak</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
 
-                        <h4 class="font-display font-bold text-lg mb-2">Nasi</h4>
-                        <p class="text-accent text-sm mb-3">Nasi putih & nasi goreng sebagai pelengkap</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Sup Miso</h4>
-                        <p class="text-accent text-sm mb-3">Sup miso Jepun, ringan & sedap</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Minuman & Pencuci Mulut Section -->
-            <div data-aos="fade-up" data-aos-delay="700">
-                <div class="flex items-center space-x-4 mb-8">
-                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.701 2.701 0 01-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"/></svg>
-                    </div>
-                    <h3 class="font-display font-bold text-3xl">Minuman & Pencuci Mulut</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <div class="relative mb-4 overflow-hidden rounded-2xl">
-                            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400&q=80" alt="Iced Tea" class="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="flex-1 min-w-0 pt-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-display font-bold text-xl text-secondary">Sayur & Lauk</h3>
+                                <button class="md:hidden w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-primary transition-transform duration-300" 
+                                     :class="activeCategory === 'sayur' ? 'rotate-180 bg-primary text-white' : ''">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                            </div>
+                            
+                            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2 opacity-80">Platter Sayur</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-2 md:gap-x-4" 
+                                 x-show="isDesktop || activeCategory === 'sayur'" 
+                                 x-collapse>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Cendawan</p>
+                                        <p class="text-[11px] text-accent leading-tight">Shiitake & Enoki</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Tauhu Segar</p>
+                                        <p class="text-[11px] text-accent leading-tight">Lembut & Goreng</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Bola Ikan</p>
+                                        <p class="text-[11px] text-accent leading-tight">Pelbagai jenis</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <h4 class="font-display font-bold text-lg mb-2">Teh Ais</h4>
-                        <p class="text-accent text-sm mb-3">Teh tarik & lemon tea</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Jus Buah</h4>
-                        <p class="text-accent text-sm mb-3">Jus oren, epal & tembikai</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Aiskrim</h4>
-                        <p class="text-accent text-sm mb-3">Aneka rasa, penutup yang sempurna</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 group">
-
-                        <h4 class="font-display font-bold text-lg mb-2">Buah-buahan Segar</h4>
-                        <p class="text-accent text-sm mb-3">Potongan buah segar, siap dimakan</p>
                     </div>
                 </div>
+
+                <div class="w-full bg-white rounded-[2.5rem] p-4 shadow-xl shadow-gray-100 border border-white hover:border-primary/20 transition-all duration-300 group relative overflow-hidden"
+                     data-aos="fade-up" data-aos-delay="500">
+                    <div class="flex flex-row h-full gap-5 items-start" 
+                         @click="!isDesktop ? (activeCategory = activeCategory === 'sup' ? null : 'sup') : null">
+                        
+                        <div class="w-28 h-28 md:w-32 md:h-32 flex-shrink-0 relative rounded-[1.5rem] overflow-hidden shadow-md">
+                            <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80" alt="Sup" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-60"></div>
+                            <div class="absolute bottom-2 left-2 bg-white/90 backdrop-blur-sm text-secondary text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+                                Panas
+                            </div>
+                        </div>
+
+                        <div class="flex-1 min-w-0 pt-1">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-display font-bold text-xl text-secondary">Sup Asas</h3>
+                                <button class="md:hidden w-8 h-8 flex items-center justify-center rounded-full bg-gray-50 text-primary transition-transform duration-300" 
+                                     :class="activeCategory === 'sup' ? 'rotate-180 bg-primary text-white' : ''">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+                            </div>
+                            
+                            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2 opacity-80">Sup Tomyam</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-2 md:gap-x-4" 
+                                 x-show="isDesktop || activeCategory === 'sup'" 
+                                 x-collapse>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Sup Jernih</p>
+                                        <p class="text-[11px] text-accent leading-tight">Reneh ayam asli</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Sup Herba</p>
+                                        <p class="text-[11px] text-accent leading-tight">Ginseng & herba</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 group/item">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 group-hover/item:bg-primary transition-colors"></div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-secondary">Sup Miso</p>
+                                        <p class="text-[11px] text-accent leading-tight">Ala Jepun</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
